@@ -1,6 +1,5 @@
 const cors = require('cors');
 const express = require('express');
-const { serveStaticFiles } = require('./middlewares');
 const router = require('./routes');
 
 const app = express();
@@ -11,8 +10,6 @@ app.use(cors({
   methods: 'POST',
   exposedHeaders: 'X-Filename',
 }));
-
-app.use('/temp', serveStaticFiles);
 
 app.use('/', router);
 

@@ -1,12 +1,6 @@
-const path = require('path');
-const { unlink } = require('fs');
+const stream = require('stream');
 const { FileSizeLimitError, FileTypeError } = require('../errors');
-const {
-  checkFileSize,
-  checkFileType,
-  removeHtmlTags,
-  writeTempFile,
-} = require('../helpers');
+const { checkFileSize, checkFileType, removeHtmlTags } = require('../helpers');
 
 async function processFile({ file }, res) {
   try {
@@ -15,21 +9,14 @@ async function processFile({ file }, res) {
     checkFileType(file);
 
     const stringData = removeHtmlTags(file);
+    const readStream = new stream.Readable();
 
-    const {fileName, filePath } = await writeTempFile(file, stringData);
+    readStream.push(stringData);
+    readStream.push(null);
+    
+    res.header('X-Filename', `no-html-${file.originalname}`);
 
-    res.header('X-Filename', fileName);
-    res.download(filePath, err => {
-      if (err) {
-        console.error('Erro ao baixar o arquivo: ', err);
-        res.status(500).send('Erro ao baixar o arquivo');
-      }
-
-      unlink(filePath, err => {
-        if (err) throw err;
-        console.log(`${filePath} foi deletado`);
-      });
-    })
+    return readStream.pipe(res);
   } catch (err) {
     if (err instanceof FileSizeLimitError) {
       console.error(`Erro de limite de tamanho de arquivo: ${err.message}`);
