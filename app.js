@@ -1,16 +1,15 @@
-const cors = require('cors');
 const express = require('express');
 const router = require('./routes');
+const { corsConfig } = require('./configs');
+const { logger } = require('./middlewares');
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-app.use(cors({
-  origin: '*',
-  methods: 'POST',
-  exposedHeaders: 'X-Filename',
-}));
+app.use(corsConfig);
 
-app.use('/', router);
+app.use(logger);
+
+app.use(router);
 
 module.exports = { app, port };

@@ -1,13 +1,9 @@
 const stream = require('stream');
 const { FileSizeLimitError, FileTypeError } = require('../errors');
-const { checkFileSize, checkFileType, removeHtmlTags } = require('../helpers');
+const { removeHtmlTags } = require('../services/file-service');
 
 async function processFile({ file }, res) {
   try {
-    checkFileSize(file);
-    
-    checkFileType(file);
-
     const stringData = removeHtmlTags(file);
     const readStream = new stream.Readable();
 
