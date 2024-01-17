@@ -1,3 +1,5 @@
-const { app, port } = require('./app');
+const app = require('./app');
 
-app.listen(port, () => console.log(`Using port = ${port}`));
+const port = app.get('PORT');
+
+app.listen(port, () => console.log(`Server running at port ${port}`));
