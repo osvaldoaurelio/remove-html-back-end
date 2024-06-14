@@ -2,6 +2,8 @@ const stream = require('stream');
 const { removeHtmlTags } = require('../services/file-service');
 
 function processFile(req, res, next) {
+  const fileName = req.file.originalname;
+
   try {
     const stringData = removeHtmlTags(req.file);
     const readStream = new stream.Readable();
@@ -9,9 +11,9 @@ function processFile(req, res, next) {
     readStream.push(stringData);
     readStream.push(null);
     
-    res.header('X-Filename', `no-html-${req.file.originalname}`);
+    res.header('X-Filename', `no-html-${fileName}`);
 
-    console.log(`${req.file-originalname} processado com sucesso... ${Date()}`);
+    console.log(`${fileName} processado com sucesso... ${Date()}`);
 
     return readStream.pipe(res);
   } catch(err) {
