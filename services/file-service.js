@@ -5,7 +5,8 @@ const removeHtmlTags = file => {
   checkFileSize(file);
   checkFileType(file);
 
-  const content = file.buffer.toString('utf8').replace(/<br\b(?:.*?)>/gi, '\n$&');
+  const content = file.buffer.toString('utf8');
+  // const content = file.buffer.toString('utf8').replace(/<br\b(?:.*?)>/gi, '\n$&');
   const $ = Cheerio.load(content);
   
   $('*').each(function () {
