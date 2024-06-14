@@ -10,7 +10,7 @@ const removeHtmlTags = file => {
     .replace(/&quot;/gi, '"')
     .replace(/&gt;/gi, '>')
     .replace(/&lt;/gi, '<')
-    .replace(/&amp/gi, '&');
+    .replace(/&amp;/gi, '&');
 
   // const content = file.buffer.toString('utf8').replace(/<br\b(?:.*?)>/gi, '\n$&');
   const $ = Cheerio.load(content);

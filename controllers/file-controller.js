@@ -11,6 +11,8 @@ function processFile(req, res, next) {
     
     res.header('X-Filename', `no-html-${req.file.originalname}`);
 
+    console.log(`${req.file-originalname} processado com sucesso... ${Date()}`);
+
     return readStream.pipe(res);
   } catch(err) {
     next(err);
