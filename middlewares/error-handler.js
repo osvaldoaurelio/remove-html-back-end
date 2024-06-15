@@ -1,6 +1,6 @@
 const { FileSizeLimitError, FileTypeError } = require("../errors");
 
-const errorHandler = (err, _, res, _) => {
+const errorHandler = (err, _req, res, _next) => {
   if (err instanceof FileSizeLimitError) {
     console.error(`File Size Limit Error: ${err.message}`);
     return res.status(400).send(err.message);
