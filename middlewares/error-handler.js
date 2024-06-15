@@ -1,9 +1,9 @@
 const { FileSizeLimitError, FileTypeError } = require("../errors");
 
-const errorHandler = (err, req, res, next) => {
+const errorHandler = (err, _, res, _) => {
   if (err instanceof FileSizeLimitError) {
     console.error(`File Size Limit Error: ${err.message}`);
-    res.status(400).send(err.message);
+    return res.status(400).send(err.message);
   }
 
   if (err instanceof FileTypeError) {
@@ -12,7 +12,7 @@ const errorHandler = (err, req, res, next) => {
   }
 
   console.error('Error in file processing request:', err);
-  res.status(500).send('Error in file processing request');
+  return res.status(500).send('Error in file processing request');
 };
 
 module.exports = errorHandler;
